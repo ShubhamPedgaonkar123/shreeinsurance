@@ -4,7 +4,6 @@ async function login(params) {
         method: 'POST',
         data: params,
         headers: { 'Content-Type': 'application/json' ,"Access-Control-Allow-Origin": "*"},
-        dataType : 'jsonp',
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
