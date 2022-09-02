@@ -23,7 +23,7 @@ async function login(params) {
     fetch(url, {
             method: 'POST', // or 'PUT'
             mode: 'cors',
-            credentials: 'same-origin',
+            // credentials: 'same-origin',
             headers: {
                 'Content-Type': 'application/json',
             },
