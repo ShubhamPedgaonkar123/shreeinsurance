@@ -3,7 +3,7 @@ async function login(params) {
         url: BASE_URL + 'admin/login/',
         method: 'POST',
         data: params,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' ,"Access-Control-Allow-Origin: *"},
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
