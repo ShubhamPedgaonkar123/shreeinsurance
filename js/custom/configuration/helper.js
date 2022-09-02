@@ -1,0 +1,37 @@
+function capitalizeFirstLetter(str) {
+
+    // converting first letter to uppercase
+    const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+
+    return capitalized;
+}
+
+async function converImageToBase64(inputId) {
+  let image = $('#'+inputId)[0]['files']
+
+  if (image && image[0]) {
+    const reader = new FileReader();
+
+    return new Promise(resolve => {
+      reader.onload = ev => {
+        resolve(ev.target.result)
+      }
+      reader.readAsDataURL(image[0])
+    })
+  }
+}
+
+async function proccessData(image =null) {
+    if (image != null) {
+        const image = await converImageToBase64(image)
+    }else{
+        const image = await converImageToBase64('image')
+    }
+    return image
+}
+var return_first;
+function callback(response) {
+  return_first = response;
+  //use return_first variable here
+  return return_first;
+}
