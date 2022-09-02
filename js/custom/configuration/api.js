@@ -1,10 +1,11 @@
 async function login(params) {
     $.ajax({
-        url: BASE_URL + 'admin/login/',
         method: 'POST',
+        url: BASE_URL + 'admin/login/',
         data: params,
         headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" },
         mode: 'cors',
+            dataType: 'json', 
         xhrFields: {
             withCredentials: true
         },
