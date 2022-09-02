@@ -19,7 +19,7 @@ $("#category_id").change(function(e) {
         $('#input_field').show()
         $("#mytext").remove();
         for (var i = 0; i < count.length; i++) {
-            $('#input_field').append('<input type="text" id="mytext" class="form-control mytext" name="mytext[]"/>');
+            $('#input_field').append('<input type="text" id="mytext" placeholder="Enter Category Value here" class="form-control mytext" name="mytext[]"/>');
         }
     }
 
@@ -294,65 +294,133 @@ $("#sumbit-button").click(function(e) {
     var type = $('#type').val()
     var start_date = $('#start_date').val()
     var end_date = $('#end_date').val()
-    var image = proccessData()
+    // var image = proccessData()
     var scheme_type_select = $('#scheme_type_select').val()
     var category_id = $('#category_id').val()
 
-    console.log(category_id)
-    if (scheme_type_select == 'total') {
-        for (var i = 0; i < category_id.length; i++) {
-            options = [{
-                'category_id': category_id[i],
-                'qty': 0,
-            }]
-        }
-        console.log(options)
-        return false
-    } else if (scheme_type_select == 'particular') {
-
-        var mytext = $('.mytext').val()
-        // console.log("mytext", mytext)
-        var quantityArr = $('.mytext').map(function() {
-            return +this.value;
-        }).get();
-        // console.log(quantityArr);
-        // if you want the value comma separated then join the array
-        var quantityCommaSeperatedString = quantityArr.join(',');
-        options = []
-        var x = new Array();
-        x = quantityCommaSeperatedString.split(",");
-        for (var i = 0; i < category_id.length; i++) {
-            options[i] = {
-                'category_id': category_id[i],
-                'qty': x[i],
-            }    
-        }
-        // for (var i = 0; i < category_id.length; i++) {
-        //     options = [{
-        //         'category_id': category_id[i],
-        //         'qty': quantityCommaSeperatedString[i],
-        //     }]
-        // }
-        console.log(options)
-        return false
-    } else {
-        alert('please select scheme type')
+    var image = $('#image').val()
+    if (category_id.length == 0) {
+        $.notify("Please Fill category", "warn");
         return false
     }
-    image.then(value => {
-        console.log(value); // 👉️ 13
-        var params = JSON.stringify({
-            'name': scheme_name,
-            'details': scheme_details,
-            'reward_value_1': reward_value_1,
-            'reward_value_2': reward_value_2,
-            // 'options': ,
-            'type': type,
-            'start_date': start_date,
-            'end_date': end_date,
-            'image': value,
-        });
-        console.log(params)
-        createscheme(params);
-    });
+    if (image.length == 0) {
+        if (scheme_type_select == 'total') {
+            options = []
+            for (var i = 0; i < category_id.length; i++) {
+                options[i] = {
+                    'category_id': category_id[i],
+                    'qty': 0,
+                }
+            }
+            var params = JSON.stringify({
+                'name': scheme_name,
+                'details': scheme_details,
+                'reward_value_1': reward_value_1,
+                'reward_value_2': reward_value_2,
+                'options': options,
+                'type': type,
+                'start_date': start_date,
+                'end_date': end_date,
+                // 'image': ' ',
+            });
+            console.log(params)
+            createscheme(params);
+
+        } else if (scheme_type_select == 'particular') {
+            var mytext = $('.mytext').val()
+            var quantityArr = $('.mytext').map(function() {
+                return +this.value;
+            }).get();
+            var quantityCommaSeperatedString = quantityArr.join(',');
+            options = []
+            var x = new Array();
+            x = quantityCommaSeperatedString.split(",");
+            for (var i = 0; i < category_id.length; i++) {
+                options[i] = {
+                    'category_id': category_id[i],
+                    'qty': x[i],
+                }
+            }
+            var params = JSON.stringify({
+                'name': scheme_name,
+                'details': scheme_details,
+                'reward_value_1': reward_value_1,
+                'reward_value_2': reward_value_2,
+                'options': options,
+                'type': type,
+                'start_date': start_date,
+                'end_date': end_date,
+                // 'image': ' ',
+            });
+            console.log(params)
+            createscheme(params);
+
+        } else {
+            alert('please select scheme type')
+            return false
+        }
+    } else {
+
+        image = proccessData()
+
+        if (scheme_type_select == 'total') {
+            options = []
+            for (var i = 0; i < category_id.length; i++) {
+                options[i] = {
+                    'category_id': category_id[i],
+                    'qty': 0,
+                }
+            }
+            image.then(value => {
+                console.log(value); // 👉️ 13
+                var params = JSON.stringify({
+                    'name': scheme_name,
+                    'details': scheme_details,
+                    'reward_value_1': reward_value_1,
+                    'reward_value_2': reward_value_2,
+                    'options': options,
+                    'type': type,
+                    'start_date': start_date,
+                    'end_date': end_date,
+                    'image': value,
+                });
+                console.log(params)
+                createscheme(params);
+            });
+        } else if (scheme_type_select == 'particular') {
+            var mytext = $('.mytext').val()
+            var quantityArr = $('.mytext').map(function() {
+                return +this.value;
+            }).get();
+            var quantityCommaSeperatedString = quantityArr.join(',');
+            options = []
+            var x = new Array();
+            x = quantityCommaSeperatedString.split(",");
+            for (var i = 0; i < category_id.length; i++) {
+                options[i] = {
+                    'category_id': category_id[i],
+                    'qty': x[i],
+                }
+            }
+            image.then(value => {
+                console.log(value); // 👉️ 13
+                var params = JSON.stringify({
+                    'name': scheme_name,
+                    'details': scheme_details,
+                    'reward_value_1': reward_value_1,
+                    'reward_value_2': reward_value_2,
+                    'options': options,
+                    'type': type,
+                    'start_date': start_date,
+                    'end_date': end_date,
+                    'image': value,
+                });
+                console.log(params)
+                createscheme(params);
+            });
+        } else {
+            alert('please select scheme type')
+            return false
+        }
+    }
 });

@@ -112,6 +112,10 @@ async function showTable() {
         deletereward(id)
     });
 }
+$("#add-user-schema").click(function(e) {
+    e.preventDefault();
+    addusertablereward()    
+});
 $("#payment_button").click(function(e) {
     e.preventDefault();
     id                =   $('#id').val()

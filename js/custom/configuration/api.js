@@ -109,6 +109,24 @@ async function updatesubcategory(params) {
     });
 }
 
+function addusertablereward(){
+    $.ajax({
+        url: BASE_URL + 'admin/add_to_reward/',
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAPIToken()
+        },
+        mode: 'cors',
+        credentials: 'same-origin',
+        success: function(result) {
+            $.notify('Added Successfully','success')
+        },
+        error: function(data) {
+            $.notify('Failed to Added user  in reward table','error')
+        }
+    });
+}
 function updateschemereferral(params, id) {
     $.ajax({
         url: BASE_URL + 'admin/admin_scheme_referral_update/' + parseInt(id),
@@ -121,10 +139,12 @@ function updateschemereferral(params, id) {
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            alert('data added')
-            $('#mediumModal').modal('hide')
+            $.notify('Scheme Status updated Successfully','success')
+            $('#editschemamediumModal').modal('hide')
         },
-        error: function(data) {}
+        error: function(data) {
+            $.notify('Failed to updated  Scheme Status','error')
+        }
     });
 }
 
@@ -324,10 +344,13 @@ function createscheme(params) {
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            alert('data added')
+            $.notify('Scheme Created Successfully','success')
             $('#mediumModal').modal('hide')
         },
-        error: function(data) {}
+        error: function(data) {
+            $.notify('Failed to upload scheme', "error");
+             $('#mediumModal').modal('hide')
+        }
     });
 }
 

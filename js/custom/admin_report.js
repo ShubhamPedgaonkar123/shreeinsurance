@@ -43,31 +43,25 @@ async function showTable() {
             {
                 "title": "User Name",
                 render: function(data, type, row, meta) {
-                    return row.firstname + " " + row.lastname
+                    return row.first_name + " " + row.last_name
                 }
             },
             {
                 "title": "Mobile Number",
                 render: function(data, type, row, meta) {
-                    return row.user_mobile
+                    return row.mobile
                 }
             },
             {
                 "title": "Insurance Category",
                 render: function(data, type, row, meta) {
-                    main_insurance_id = row.main_insurance_id
-                    sub_insurance_id = row.sub_insurance_id
-                    return '<span id="#main_insurance_name"></span>'
-                    listinsuarance(main_insurance_id, sub_insurance_id)
+                    return  row.main_insurance_name
                 }
             },
             {
                 "title": "Insurance Sub Category",
                 render: function(data, type, row, meta) {
-                    main_insurance_id = row.main_insurance_id
-                    sub_insurance_id = row.sub_insurance_id
-                    return '<span id="#sub_insurance_name"></span>'
-                    listinsuarance(main_insurance_id, sub_insurance_id)
+                    return row.sub_insurance_name
                 }
             },
             {
@@ -77,7 +71,14 @@ async function showTable() {
                 }
             },
             {
-                "title": "policy_no",
+                "title": "Policy no",
+                render: function(data, type, row, meta) {
+                    return row.commission
+           
+                }
+            },
+            {
+                "title": "Policy no",
                 render: function(data, type, row, meta) {
                     return row.policy_no
                 }
@@ -86,10 +87,17 @@ async function showTable() {
                 "title": "Download",
                 render: function(data, type, row, meta) {
                     policy_document = row.policy_document
-                    return '<iframe src="' + BASE_URL_FOR_IMAGE + '' + policy_document + '">'
+                    return '<span class="badge badge-primary">View</span>'
                 }
             },
 
         ]
+    });
+    $('#view_admin_report').on('click', '.badge-primary', async function(){
+        var RowIndex = $(this).closest('tr');
+        var data = $('#view_admin_report').dataTable().api().row(RowIndex).data();
+        policy_document   = data.policy_document
+        var myWindow = window.open(BASE_URL_FOR_IMAGE + policy_document, "_blank");
+         // myWindow.document.write("<iframe> </iframe>");
     });
 }

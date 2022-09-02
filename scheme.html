@@ -44,7 +44,7 @@
             <div class="header-mobile__bar">
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
-                        <a class="logo" href="index.html">
+                        <a id="logo" href="index.html">
                             <!-- <img src="images/icon/logo.png" alt="CoolAdmin" /> -->
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
@@ -64,8 +64,9 @@
         <!-- END HEADER MOBILE-->
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a id="logo" href="#">
+            <div id="logo">
+                <a  href="#">
+                    <img src="images/logo/logo_.png" alt="Shree" />
                 </a>
             </div>
         </aside>
@@ -77,13 +78,13 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
-                            <form class="form-header" action="" method="POST">
+                            <!-- <form class="form-header" action="" method="POST">
                                 <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." />
                                 <button class="au-btn--submit" type="submit">
                                     <i class="zmdi zmdi-search"></i>
                                 </button>
-                            </form>
-                            <div class="header-button">
+                            </form> -->
+                            <!-- <div class="header-button">
                                 <div class="noti-wrap">
                                     <div class="noti__item js-item-menu">
                                         <i class="zmdi zmdi-comment-more"></i>
@@ -239,7 +240,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -609,6 +610,7 @@
     <!-- <script src="js/custom/scheme.js"></script> -->
     <script type="text/javascript">
     const js_file = [
+        "js/notify.min.js",
         "js/custom/configuration/helper.js",
         "js/custom/configuration/localstorage.js",
         "js/custom/configuration/api.js",
