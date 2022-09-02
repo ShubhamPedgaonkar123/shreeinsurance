@@ -3,8 +3,11 @@ async function login(params) {
         url: BASE_URL + 'admin/login/',
         method: 'POST',
         data: params,
-        headers: { 'Content-Type': 'application/json' ,"Access-Control-Allow-Origin": "*"},
+        headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" },
         mode: 'cors',
+        xhrFields: {
+            withCredentials: true
+        },
         credentials: 'same-origin',
         success: function(result) {
             $.notify("Access granted", "success");
@@ -13,7 +16,7 @@ async function login(params) {
             return;
         },
         error: function(data) {
-            data    =   data.responseJSON.errors.non_field_errors
+            data = data.responseJSON.errors.non_field_errors
             for (var i = 0; i < data.length; i++) {
                 $.notify(data[i], "error");
             }
@@ -89,9 +92,9 @@ async function updatesubcategory(params) {
     });
 }
 
-function updateschemereferral(params,id) {
+function updateschemereferral(params, id) {
     $.ajax({
-        url: BASE_URL + 'admin/admin_scheme_referral_update/'+parseInt(id),
+        url: BASE_URL + 'admin/admin_scheme_referral_update/' + parseInt(id),
         method: 'PATCH',
         data: params,
         headers: {
@@ -107,23 +110,25 @@ function updateschemereferral(params,id) {
         error: function(data) {}
     });
 }
-function update_sub_insurance_list(data,main_insurance_id) {
+
+function update_sub_insurance_list(data, main_insurance_id) {
     var length = data.length;
     var appendVariable = ''
-    console.log("data",data)
+    console.log("data", data)
     $("#edit_sub_category").html(appendVariable)
     for (var i = 0; i < length; i++) {
         subcategories = data[i]['subcategories']
-        if (main_insurance_id != null && main_insurance_id == data[i]['id']){
+        if (main_insurance_id != null && main_insurance_id == data[i]['id']) {
             for (var j = 0; j < subcategories.length; j++) {
-                 appendVariable += '<option  value=' + subcategories[j]['id'] + '>' + subcategories[j]['name'] + '</option>'
+                appendVariable += '<option  value=' + subcategories[j]['id'] + '>' + subcategories[j]['name'] + '</option>'
             }
         }
     }
     $("#edit_sub_category").html(appendVariable)
-}    
-function deletecategory(name){
-    condition_url = 'admin/delete_category/name='+name
+}
+
+function deletecategory(name) {
+    condition_url = 'admin/delete_category/name=' + name
     $.ajax({
         url: BASE_URL + condition_url,
         method: 'delete',
@@ -134,12 +139,13 @@ function deletecategory(name){
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            console.log('data',result)
+            console.log('data', result)
             $.notify("Category Deleted Successfully", "warn");
         },
         error: function(data) {}
     });
 }
+
 function createinsurancelist(data, main_insurance_id = null, sub_insurance_id = null, data_type = null) {
     var length = data.length;
     var appendVariable = ''
@@ -181,7 +187,8 @@ function createinsurancelist(data, main_insurance_id = null, sub_insurance_id = 
     $('#edit_category').html(appendVariable2)
     $('#edit_sub_category').html(sub_appendVariable2)
 }
-function append_category_list(data){
+
+function append_category_list(data) {
     var length = data.length;
     var appendVariable = '';
     for (var i = 0; i < length; i++) {
@@ -190,18 +197,20 @@ function append_category_list(data){
         name = capitalizeFirstLetter(data[i]['name'])
         appendVariable += '<option value=' + data[i]['id'] + '>' + name + '</option>'
         //----------------------------------------------------------------------------------
-    }    
+    }
     $('#category_id').html(appendVariable)
     $('.js-example-basic-single').select2();
 }
-function appendlistofuser(data){
+
+function appendlistofuser(data) {
     var appendVariable = ''
     for (var i = 0; i < data.length; i++) {
-        appendVariable += '<option value'+data[i]['id']+'>'+data[i]['firstname']+'&nbsp;'+ data[i]['lastname']+' </option>'
+        appendVariable += '<option value' + data[i]['id'] + '>' + data[i]['firstname'] + '&nbsp;' + data[i]['lastname'] + ' </option>'
     }
     $('#user_id').html(appendVariable)
 }
-function listofuser(){
+
+function listofuser() {
     condition_url = 'admin/userfilter/?'
     $.ajax({
         url: BASE_URL + condition_url,
@@ -213,21 +222,21 @@ function listofuser(){
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            data    =    result.results
+            data = result.results
             appendlistofuser(data)
         },
         error: function(data) {}
     });
 }
+
 function listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_type = null) {
     if (main_insurance_id != null && sub_insurance_id != null && data_type != null) {
         condition_url = 'admin/get_category'
     } else if (main_insurance_id != null && sub_insurance_id != null) {
         condition_url = 'admin/get_category?id=' + main_insurance_id
-    }else if (main_insurance_id != null && data_type =='update_sub_category') {
+    } else if (main_insurance_id != null && data_type == 'update_sub_category') {
         condition_url = 'admin/get_category?id=' + main_insurance_id
-    } 
-    else {
+    } else {
         condition_url = 'admin/get_category'
     }
     $.ajax({
@@ -242,15 +251,13 @@ function listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_
         success: function(result) {
             if (main_insurance_id != null && data_type === 'scheme_referal') {
                 createinsurancelist(result.results, main_insurance_id, sub_insurance_id, data_type)
-            }else if (main_insurance_id != null && data_type === 'update_sub_category') {
-                update_sub_insurance_list(result.results,main_insurance_id,data_type)
-            }
-            else if (main_insurance_id != null && sub_insurance_id != null) {
+            } else if (main_insurance_id != null && data_type === 'update_sub_category') {
+                update_sub_insurance_list(result.results, main_insurance_id, data_type)
+            } else if (main_insurance_id != null && sub_insurance_id != null) {
                 createinsurancelist(result.results, main_insurance_id, sub_insurance_id)
-            }else if(data_type == "category_append"){
+            } else if (data_type == "category_append") {
                 append_category_list(result.results)
-            }
-            else {
+            } else {
                 console.log("ssasfasfgasfgadgdgasgashqwryhawrhaerssagasg")
                 createinsurancelists(result.results)
             }
@@ -306,7 +313,8 @@ function createscheme(params) {
         error: function(data) {}
     });
 }
-function getreward(){
+
+function getreward() {
     $.ajax({
         url: BASE_URL + 'admin/add_schemes/',
         method: 'post',
@@ -324,9 +332,10 @@ function getreward(){
         error: function(data) {}
     });
 }
-function deletereward(id){
+
+function deletereward(id) {
     $.ajax({
-        url: BASE_URL + 'admin/delete_rewards/'+id,
+        url: BASE_URL + 'admin/delete_rewards/' + id,
         method: 'delete',
         headers: {
             'Content-Type': 'application/json',
@@ -339,17 +348,18 @@ function deletereward(id){
             $('#mediumModal').modal('hide')
         },
         error: function(data) {}
-    });    
+    });
 }
-function updatereward(id,params){
+
+function updatereward(id, params) {
     $.ajax({
-        url: BASE_URL + 'admin/update_rewards/'+id,
+        url: BASE_URL + 'admin/update_rewards/' + id,
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': getAPIToken()
         },
-        data:params,
+        data: params,
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
@@ -357,5 +367,5 @@ function updatereward(id,params){
             $('#mediumModal').modal('hide')
         },
         error: function(data) {}
-    });   
+    });
 }

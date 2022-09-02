@@ -1,5 +1,5 @@
 // Backend url
-const BASE_URL = "https://51.83.94.248:8000/api/";
+const BASE_URL = "http://51.83.94.248:8000/api/";
 
 const BASE_URL_FOR_IMAGE = "http://51.83.94.248:8000/";
 
