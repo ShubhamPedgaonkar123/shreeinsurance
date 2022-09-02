@@ -1,44 +1,44 @@
 async function login(params) {
-    // $.ajax({
-    //     url: BASE_URL + 'admin/login/',
-    //     method: 'POST',
-    //     data: params,
-    //     headers: { 'Content-Type': 'application/json' },
-    //     mode: 'cors',
-    //     credentials: 'same-origin',
-    //     success: function(result) {
-    //         $.notify("Access granted", "success");
-    //         updateAPIToken(result.token.access);
-    //         window.location.href = "insurancecategory.html";
-    //         return;
-    //     },
-    //     error: function(data) {
-    //         data = data.responseJSON.errors.non_field_errors
-    //         for (var i = 0; i < data.length; i++) {
-    //             $.notify(data[i], "error");
-    //         }
-    //     }
-    // });
-    url = BASE_URL + 'admin/login/'
-    fetch(url, {
-            method: 'POST', // or 'PUT'
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(params),
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log('Success:', data);
+    $.ajax({
+        url: BASE_URL + 'admin/login/',
+        method: 'POST',
+        data: params,
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        credentials: 'same-origin',
+        success: function(result) {
             $.notify("Access granted", "success");
             updateAPIToken(result.token.access);
             window.location.href = "insurancecategory.html";
             return;
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        },
+        error: function(data) {
+            data = data.responseJSON.errors.non_field_errors
+            for (var i = 0; i < data.length; i++) {
+                $.notify(data[i], "error");
+            }
+        }
+    });
+    // url = BASE_URL + 'admin/login/'
+    // fetch(url, {
+    //         method: 'POST', // or 'PUT'
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(params),
+    //     })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //         console.log('Success:', data);
+    //         $.notify("Access granted", "success");
+    //         updateAPIToken(result.token.access);
+    //         window.location.href = "insurancecategory.html";
+    //         return;
+    //     })
+    //     .catch((error) => {
+    //         console.error('Error:', error);
+    //     });
 }
 async function createsubinsurancecategory(params) {
     $.ajax({
