@@ -237,6 +237,7 @@ function append_category_list(data) {
         //----------------------------------------------------------------------------------
     }
     $('#category_id').html(appendVariable)
+    $('#edit_category').html(appendVariable)
     $('.js-example-basic-single').select2();
 }
 
@@ -288,7 +289,7 @@ function listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            if (main_insurance_id != null && data_type === 'scheme_referal') {
+            if ( data_type === 'scheme_referal') {
                 createinsurancelist(result.results, main_insurance_id, sub_insurance_id, data_type)
             } else if (main_insurance_id != null && data_type === 'update_sub_category') {
                 update_sub_insurance_list(result.results, main_insurance_id, data_type)

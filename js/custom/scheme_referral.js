@@ -145,7 +145,7 @@ async function showTable() {
             $('#edit_status').html('<option value="approved">Approved</option><option value="rewarded" >Rewarded</option><option value="rejected"  selected>Rejected</option>')
         }
         getscheme(scheme_name = scheme_name)
-        listinsuarance(main_insurance_id, sub_insurance_id, data_type = "scheme_referal")
+        listinsuarance(main_insurance_ids=null, sub_insurance_ids=null, data_type = "category_append")
         $('#editschemamediumModal').modal('show')
     });
     $('#views_scheme_referral').on('click', '#view_details', async function() {
