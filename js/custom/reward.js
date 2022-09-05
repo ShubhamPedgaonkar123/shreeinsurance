@@ -78,7 +78,7 @@ async function showTable() {
                 "title": "Is Paid",
                 render: function(data, type, row, meta) {
                     is_paid = row.is_paid   
-                    if (is_paid == 'false') {
+                    if (is_paid === false) {
                         return 'NO'  
                     }else{
                         return 'Yes'
