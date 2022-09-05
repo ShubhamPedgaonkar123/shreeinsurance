@@ -228,6 +228,7 @@ function createinsurancelist(data, main_insurance_id = null, sub_insurance_id = 
 function append_category_list(data) {
     var length = data.length;
     var appendVariable = '';
+        appendVariable += '<option value="">Please Select Category</option>'
     for (var i = 0; i < length; i++) {
         //---------------------------------------------------------------------------------- 
         subcategories = data[i]['subcategories']
@@ -241,6 +242,7 @@ function append_category_list(data) {
 
 function appendlistofuser(data) {
     var appendVariable = ''
+        appendVariable += '<option value="">Please Select User List</option>'
     for (var i = 0; i < data.length; i++) {
         appendVariable += '<option value' + data[i]['id'] + '>' + data[i]['firstname'] + '&nbsp;' + data[i]['lastname'] + ' </option>'
     }

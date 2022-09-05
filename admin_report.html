@@ -261,17 +261,23 @@
                                                     <br>
                                                     <label>Filter option</label>
                                                     <div class="row">
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <label>User Name</label>
                                                             <select class="form-control" id="user_id"></select>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <label>Category Name</label>
                                                             <select class="form-control" id="category_id"></select>
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-3">
                                                             <label>Date filter</label>
-                                                            <input type="text" name="daterange" class="form-control">
+                                                            <input type="text" id="rangepicker" name="daterange" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <br>
+                                                            <button class="au-btn--submit" id="filter">
+                                                                Submit
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <!-- DATA TABLE-->
@@ -341,7 +347,7 @@
         $('input[name="daterange"]').daterangepicker({
             opens: 'left'
         }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         });
     });
     </script>

@@ -22,12 +22,13 @@ async function converImageToBase64(inputId) {
 }
 
 async function proccessData(image =null) {
+    var images
     if (image != null) {
-        const image = await converImageToBase64(image)
+         images = await converImageToBase64(image)
     }else{
-        const image = await converImageToBase64('image')
+         images = await converImageToBase64('image')
     }
-    return image
+    return images
 }
 var return_first;
 function callback(response) {

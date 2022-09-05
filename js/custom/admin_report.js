@@ -3,7 +3,17 @@ $(document).ready(function() {
     listofuser()
     showTable()
 });
-async function showTable() {
+$("#filter").click(function(e) {
+    e.preventDefault();
+    user_id=$('#user_id').val()    
+    category_id =$('#category_id').val()    
+    rangepicker =$('#rangepicker').val()
+    console.log("user_id",user_id)    
+    console.log("category_id",category_id)    
+    console.log("rangepicker",rangepicker)    
+    showTable(user_id,category_id,rangepicker)
+});
+async function showTable(user_id=null,category_id=null,rangepicker=null) {
     itemMasterTable = $('#view_admin_report').DataTable({
         "bDestroy": true,
         searching: false,
@@ -11,8 +21,16 @@ async function showTable() {
         serverSide: true,
         pageLength: 10,
         ajax: function(data, callback, settings) {
+
+            if (user_id != null || category_id !=null || rangepicker != null){
+                    
+                condition_url    =    BASE_URL + 'admin/admin_report/?page=1&user_id='+user_id+'&main_insurance_id='+category_id    
+                
+            }else{
+                condition_url    =    BASE_URL + 'admin/admin_report/?page=1'
+            }
             $.ajax({
-                url: BASE_URL + 'admin/admin_report/?page=1',
+                url: condition_url,
                 method: 'get',
                 // data: params,
                 headers: {

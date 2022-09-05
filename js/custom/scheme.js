@@ -299,11 +299,31 @@ $("#sumbit-button").click(function(e) {
     var category_id = $('#category_id').val()
 
     var image = $('#image').val()
-    if (category_id.length == 0) {
+    if (category_id.length == 0  ) {
         $.notify("Please Fill category", "warn");
+        return false
+    }else if(scheme_name.length == 0){
+        $.notify("Please Fill Scheme Name", "warn");
+        return false
+    }else if(reward_value_1.length == 0){
+        $.notify("Please Fill Reward Value", "warn");
+        return false
+    }else if(reward_value_2.length == 0){
+        $.notify("Please Fill Reward Value 2", "warn");
+        return false
+    }else if(qty.length == 0){
+        $.notify("Please Fill Qty", "warn");
+        return false
+    }else if(start_date.length == 0){
+        $.notify("Please Fill Start Date", "warn");
+        return false
+    }else if(end_date.length == 0){
+        $.notify("Please Fill End Date", "warn");
         return false
     }
     if (image.length == 0) {
+        $.notify("Please Fill Image", "warn");
+        return false
         if (scheme_type_select == 'total') {
             options = []
             for (var i = 0; i < category_id.length; i++) {
@@ -361,7 +381,7 @@ $("#sumbit-button").click(function(e) {
         }
     } else {
 
-        image = proccessData()
+        image = proccessData('image')
 
         if (scheme_type_select == 'total') {
             options = []
@@ -402,6 +422,7 @@ $("#sumbit-button").click(function(e) {
                     'qty': x[i],
                 }
             }
+            image = proccessData('image')
             image.then(value => {
                 console.log(value); // 👉️ 13
                 var params = JSON.stringify({
