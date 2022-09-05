@@ -39,17 +39,17 @@ async function showTable(user_id = null, category_id = null, start = null ,end=n
 
             if (user_id != null || category_id != null || start != null || end != null) {
                 if (user_id != null) {
-                    condition_url = BASE_URL + 'admin/filter_reward/&user_id='+user_id
+                    condition_url = BASE_URL + 'admin/admin_report/?user_id='+user_id
                 }
                 if (category_id != null) {
-                    condition_url = BASE_URL + 'admin/filter_reward/&main_insurance_id='+category_id   
+                    condition_url = BASE_URL + 'admin/admin_report/?main_insurance_id='+category_id   
                 }
                  if (start != null && end != null) {
-                    condition_url = BASE_URL + 'admin/filter_reward/&start_date='+start+'&end_date='+end   
+                    condition_url = BASE_URL + 'admin/admin_report/?start_date='+start+'&end_date='+end   
                 }
 
             } else {
-                condition_url = BASE_URL + 'admin/filter_reward/?page=1'
+                condition_url = BASE_URL + 'admin/admin_report/?page=1'
             }
             $.ajax({
                 url: condition_url,
