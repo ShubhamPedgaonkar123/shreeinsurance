@@ -2,7 +2,11 @@ $("#add-schema").click(function() {
     $("#mediumModal").modal('show');
 });
 var stopOpening = false;
-
+$("#scheme_filters").change(function(e) {
+    e.preventDefault()
+    scheme_filter = $('#scheme_filters').val()
+    showTable(scheme_filter)
+});
 $("#category_id").change(function(e) {
     e.preventDefault()
     var count = $(this).val();
@@ -100,17 +104,27 @@ $(".input-number").keydown(function(e) {
         e.preventDefault();
     }
 });
-async function showTable() {
+async function showTable(scheme_filter = null, start = null, end = null) {
     itemMasterTable = $('#views_scheme').DataTable({
         "bDestroy": true,
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 10,
+        pageLength: 50,
 
         ajax: function(data, callback, settings) {
+            if (scheme_filter != null || start != null || end != null) {
+                if (scheme_filter != null) {
+                    condition_url = 'admin/get_schemes/?name=' + scheme_filter
+                }
+                if (start != null && end != null) {
+                    condition_url = 'admin/get_schemes/?start_date=' + start + '&end_date='+end
+                }
+            } else {
+                condition_url = 'admin/get_schemes/?page=1'
+            }
             $.ajax({
-                url: BASE_URL + 'admin/get_schemes/?page=1',
+                url: BASE_URL + condition_url ,
                 method: 'get',
                 // data: params,
                 headers: {
@@ -266,6 +280,7 @@ async function showTable() {
 $(document).ready(function() {
     listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_type = 'category_append')
     showTable()
+    getscheme()
 });
 $("#update_scheme").click(function(e) {
     scheme_name = $('#edit_scheme_name').val()
@@ -299,25 +314,25 @@ $("#sumbit-button").click(function(e) {
     var category_id = $('#category_id').val()
 
     var image = $('#image').val()
-    if (category_id.length == 0  ) {
+    if (category_id.length == 0) {
         $.notify("Please Fill category", "warn");
         return false
-    }else if(scheme_name.length == 0){
+    } else if (scheme_name.length == 0) {
         $.notify("Please Fill Scheme Name", "warn");
         return false
-    }else if(reward_value_1.length == 0){
+    } else if (reward_value_1.length == 0) {
         $.notify("Please Fill Reward Value", "warn");
         return false
-    }else if(reward_value_2.length == 0){
+    } else if (reward_value_2.length == 0) {
         $.notify("Please Fill Reward Value 2", "warn");
         return false
-    }else if(qty.length == 0){
+    } else if (qty.length == 0) {
         $.notify("Please Fill Qty", "warn");
         return false
-    }else if(start_date.length == 0){
+    } else if (start_date.length == 0) {
         $.notify("Please Fill Start Date", "warn");
         return false
-    }else if(end_date.length == 0){
+    } else if (end_date.length == 0) {
         $.notify("Please Fill End Date", "warn");
         return false
     }

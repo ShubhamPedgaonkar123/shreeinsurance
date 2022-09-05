@@ -35,6 +35,9 @@
     <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Date range Picker-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 </head>
 
 <body class="animsition">
@@ -268,6 +271,18 @@
                                                             User in Reward
                                                         </button>
                                                     </div>
+                                                    <br><br>
+                                                    <label>Filter option</label>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label>Referral Name</label>
+                                                            <select class="form-control" id="user_id"></select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Date filter</label>
+                                                            <input type="text" id="rangepicker" name="daterange" class="form-control">
+                                                        </div>
+                                                    </div>
                                                     <!-- DATA TABLE-->
                                                     <div class="table-responsive m-b-40 m-t-30">
                                                         <table class="table table-borderless table-data3 table-image" id="reward">
@@ -346,8 +361,8 @@
                                 </div>
                                 <div class="form-row">
                                     <label>Reference</label>
-                                    <input type="text"  class="form-control" id="reference">
-                                    <input type="hidden"  class="form-control" id="id">
+                                    <input type="text" class="form-control" id="reference">
+                                    <input type="hidden" class="form-control" id="id">
                                 </div>
                                 <div>
                                     <button id="payment_button" type="submit" class="btn btn-lg btn-info btn-block">
@@ -397,11 +412,28 @@
     <script src="vendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
     <!-- Main JS-->
     <script src="js/main.js"></script>
+    <!-- daterangepicker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Custom Js -->
     <script src="js/custom/header_mobile.js"></script>
     <script src="js/custom/aside.js"></script>
     <script src="js/custom/configuration/config.js"></script>
     <!-- <script src="js/custom/scheme.js"></script> -->
+    <script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        }, function(start, end, label) {
+            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            showTable(user_id = null, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
+        });
+    });
+    </script>
     <script type="text/javascript">
     const js_file = [
         "js/notify.min.js",

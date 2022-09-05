@@ -1,23 +1,99 @@
 $("#modal_insurance_details").click(function() {
     $('#mediumModal').modal('show');
 });
+$("#fiter_status").change(function(e) {
+    e.preventDefault()
+    alert('s')
+    fiter_status = $('#fiter_status').val()
+    showTable(fiter_status)
+});
+$("#scheme_filter").change(function(e) {
+    e.preventDefault()
+    scheme_filter = $('#scheme_filter').val()
+    showTable(fiter_status=null,scheme_filter)
+});
+$("#add-referral-scheme").click(function(e){    
+    e.preventDefault()
+    user_id        =   $('#user_id').val()
+    view_scheme    =   $('#view_scheme').val()
+    first_name     =   $('#first_name').val()
+    last_name      =   $('#last_name').val()
+    email          =   $('#email').val()
+    mobile         =   $('#mobile').val()
+    requirement    =   $('#requirement').val()
+    if (user_id.length == 0) {
+        $.notify('Please fill User name','warn')
+        return false
+    }else if(view_scheme.length == 0){
+         $.notify('Please fill User scheme','warn')
+        return false
+    }else if(first_name.length == 0){
+         $.notify('Please fill User First Name','warn')
+        return false
+    }else if(last_name.length == 0 ){
+         $.notify('Please fill User Last name','warn')
+        return false
+    }else if(email.length == 0 ){
+         $.notify('Please fill User Email','warn')
+        return false
+    }else if(mobile.length == 0){
+         $.notify('Please fill User mobile','warn')
+        return false
+    }else if (requirement.length == 0) {
+        var params = JSON.stringify({
+            'user_id': user_id,
+            'scheme_id': view_scheme,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'mobile': mobile,
+        });
+        addschemereferraladmin(params)  
+    }{
+        var params = JSON.stringify({
+            'user_id': user_id,
+            'scheme_id': view_scheme,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'mobile': mobile,
+            'requirement': requirement,
+        });
+        addschemereferraladmin(params)
+    }
+});
+$("#viewaddschemeModal").click(function(){ 
+    $('#addschemeModal').modal('show');
+});
 $("#update-scheme").click(function() {
     $('#editschemamediumModal').modal('show');
 });
 $(document).ready(function() {
     showTable()
+    listofuser()
+    getscheme()
 });
-async function showTable() {
+async function showTable(fiter_status=null,scheme_filter=null) {
     itemMasterTable = $('#views_scheme_referral').DataTable({
         "bDestroy": true,
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 10,
+        pageLength: 22,
 
         ajax: function(data, callback, settings) {
+            if (fiter_status != null || scheme_filter != null) {
+                if (fiter_status != null) {
+                    condition_url  = 'admin/get_new_scheme_referral/?status='+fiter_status
+                }
+                if (scheme_filter != null) {
+                    condition_url  = 'admin/get_new_scheme_referral/?scheme_id='+scheme_filter
+                }
+            }else{
+                condition_url  = 'admin/get_new_scheme_referral/?'
+             }
             $.ajax({
-                url: BASE_URL + 'admin/get_new_scheme_referral/?',
+                url: BASE_URL + condition_url,
                 method: 'get',
                 // data: params,
                 headers: {
@@ -44,16 +120,12 @@ async function showTable() {
         },
         columns: [
 
-            {
-                "title": "Sr No",
-                render: function(data, type, row, meta) {
-                    return row.id
-                }
-            },
+            
             {
                 "title": "Scheme Name",
                 render: function(data, type, row, meta) {
-                    return row.scheme_detail.name
+                    appendVariable  =  '<span id="view_scheme_details">'+row.scheme_detail.name+'</span>'
+                    return appendVariable
                 }
             },
             {
@@ -122,8 +194,15 @@ async function showTable() {
         if (policy_no != null) { $("#policy_no").html(policy_no) } else { $("#policy_no").html("-") }
         if (commission != null) { $("#commission").html(commission) } else { $("#commission").html("-") }
         if (requirement != null) { $("#requirement").html(requirement) } else { $("#requirement").html("-") }
-        if (policy_document != null) { $("#pdf").attr("src", BASE_URL_FOR_IMAGE + policy_document) } else { $("#pdf").html("-") }
+        if (policy_document != null){ $("#pdf").append("<a  href="+BASE_URL_FOR_IMAGE+policy_document+" Target='_blank'  ><i class='fa fa-eye'></i></a>") } else { $("#pdf").html("-") }
         $("#mediumModal").modal('show');
+    });
+    $('#views_scheme_referral').on('click', '#view_scheme_details', async function(){
+        var RowIndex = $(this).closest('tr');
+        var data = $('#views_scheme_referral').dataTable().api().row(RowIndex).data();
+        console.log(data.scheme_detail.name)
+        getscheme(null,data.scheme_id)
+        $("#viewmodalscheme").modal('show');  
     });
     $('#views_scheme_referral').on('click', '#edit', async function() {
         var RowIndex = $(this).closest('tr');
@@ -208,16 +287,3 @@ $("#edit_category").change(function() {
     category_value = $("#edit_category").val();
     listinsuarance(main_insurance_id = category_value, sub_insurance_id = null, data_type = "update_sub_category")
 });
-
-function listofscheme(data, scheme_name = null) {
-    var appendVariable = ' ';
-    length_of_data = data.length
-    for (var i = 0; i < length_of_data; i++) {
-        if (data[i]['name'] == scheme_name) {
-            appendVariable += '<option selected value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>';
-        } else {
-            appendVariable += '<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>'
-        }
-    }
-    $('#edit_scheme').html(appendVariable)
-}

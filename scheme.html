@@ -35,6 +35,8 @@
     <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+    <!-- Date range Picker-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <body class="animsition">
@@ -273,6 +275,18 @@
                                                         <button id="add-schema" class="au-btn au-btn-icon au-btn--green au-btn--small">
                                                             <i class="zmdi zmdi-plus"></i>Add Schema</button>
                                                         
+                                                    </div>
+                                                    <br><br>
+                                                    <label>Filter option</label>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label>Scheme Name</label>
+                                                            <select class="form-control" id="scheme_filters"></select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Date filter</label>
+                                                            <input type="text" id="rangepicker" name="daterange" class="form-control">
+                                                        </div>
                                                     </div>
                                                     <!-- DATA TABLE-->
                                                     <div class="table-responsive m-b-40 m-t-30">
@@ -608,6 +622,24 @@
     <script src="js/custom/aside.js"></script>
     <script src="js/custom/configuration/config.js"></script>
     <!-- <script src="js/custom/scheme.js"></script> -->
+    <!-- daterangepicker -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left',
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear'
+            }
+        }, function(start, end, label) {
+            // console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+            showTable(user_id = null, start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'))
+        });
+    });
+    </script>
     <script type="text/javascript">
     const js_file = [
         "js/notify.min.js",

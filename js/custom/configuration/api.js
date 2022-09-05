@@ -1,3 +1,32 @@
+$('.tab').click(function() {
+    $(this).addClass('active').siblings().removeClass('active');
+});
+function listofscheme(data, scheme_name = null,scheme_id=null) {
+    var appendVariable = ' ';
+    var appendVariable2 = ' ';
+    length_of_data = data.length
+    for (var i = 0; i < length_of_data; i++) {
+        if (data[i]['name'] == scheme_name) {
+            appendVariable += '<option selected value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>';
+        }else if (scheme_id == data[i]['id']) {
+            $('#view_scheme_name').val(data[i]['name'])
+            $('#view_details_description').val(data[i]['details'])
+            $('#view_start_date').val(data[i]['start_date'])
+            $('#view_end_date').val(data[i]['end_date'])
+            $('#view_type').val(data[i]['type'])
+            $('#view_reward_value_1').val(data[i]['reward_value_1'])
+            $('#view_reward_value_2').val(data[i]['reward_value_2'])
+            $('#view_qty').val(data[i]['qty'])
+        } else {
+            appendVariable += '<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>'
+        }
+            appendVariable2 += '<option>' + data[i]['name'] + '</option>'
+    }
+    $('#edit_scheme').html(appendVariable)
+    $('#view_scheme').html(appendVariable)
+    $('#scheme_filter').html(appendVariable)
+    $('#scheme_filters').html(appendVariable2)
+}
 async function login(params) {
     $.ajax({
         url: BASE_URL + 'admin/login/',
@@ -109,7 +138,7 @@ async function updatesubcategory(params) {
     });
 }
 
-function addusertablereward(){
+function addusertablereward() {
     $.ajax({
         url: BASE_URL + 'admin/add_to_reward/',
         method: 'post',
@@ -120,13 +149,14 @@ function addusertablereward(){
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            $.notify('Added Successfully','success')
+            $.notify('Added Successfully', 'success')
         },
         error: function(data) {
-            $.notify('Failed to Added user  in reward table','error')
+            $.notify('Failed to Added user  in reward table', 'error')
         }
     });
 }
+
 function updateschemereferral(params, id) {
     $.ajax({
         url: BASE_URL + 'admin/admin_scheme_referral_update/' + parseInt(id),
@@ -139,11 +169,11 @@ function updateschemereferral(params, id) {
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            $.notify('Scheme Status updated Successfully','success')
+            $.notify('Scheme Status updated Successfully', 'success')
             $('#editschemamediumModal').modal('hide')
         },
         error: function(data) {
-            $.notify('Failed to updated  Scheme Status','error')
+            $.notify('Failed to updated  Scheme Status', 'error')
         }
     });
 }
@@ -228,7 +258,7 @@ function createinsurancelist(data, main_insurance_id = null, sub_insurance_id = 
 function append_category_list(data) {
     var length = data.length;
     var appendVariable = '';
-        appendVariable += '<option value="">Please Select Category</option>'
+    appendVariable += '<option value="">Please Select Category</option>'
     for (var i = 0; i < length; i++) {
         //---------------------------------------------------------------------------------- 
         subcategories = data[i]['subcategories']
@@ -243,9 +273,9 @@ function append_category_list(data) {
 
 function appendlistofuser(data) {
     var appendVariable = ''
-        appendVariable += '<option value="">Please Select User List</option>'
+    appendVariable += '<option value="">Please Select User List</option>'
     for (var i = 0; i < data.length; i++) {
-        appendVariable += '<option value' + data[i]['id'] + '>' + data[i]['firstname'] + '&nbsp;' + data[i]['lastname'] + ' </option>'
+        appendVariable += '<option value="' + data[i]['fcm_key'] + '" >' + data[i]['firstname'] + '&nbsp;' + data[i]['lastname'] + ' </option>'
     }
     $('#user_id').html(appendVariable)
 }
@@ -289,7 +319,7 @@ function listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            if ( data_type === 'scheme_referal') {
+            if (data_type === 'scheme_referal') {
                 createinsurancelist(result.results, main_insurance_id, sub_insurance_id, data_type)
             } else if (main_insurance_id != null && data_type === 'update_sub_category') {
                 update_sub_insurance_list(result.results, main_insurance_id, data_type)
@@ -306,7 +336,7 @@ function listinsuarance(main_insurance_id = null, sub_insurance_id = null, data_
     });
 }
 
-function getscheme(scheme_name = null) {
+function getscheme(scheme_name = null, scheme_id = null) {
     // if (scheme_name != null) {
     // condition_url = 'admin/get_schemes/?page=1&name='+scheme_name
     // }else{
@@ -325,12 +355,38 @@ function getscheme(scheme_name = null) {
         success: function(result) {
             if (scheme_name != null) {
                 listofscheme(result.results, scheme_name)
+            } else if (scheme_id != null) {
+                listofscheme(result.results, scheme_name = null, scheme_id)
+            } else {
+                listofscheme(result.results)
             }
         },
         error: function(data) {
             // alert(data);
             console.log(data);
             return false;
+        }
+    });
+}
+
+function addschemereferraladmin(argument) {
+    $.ajax({
+        url: BASE_URL + 'admin/create_scheme_referral/',
+        method: 'post',
+        data: argument,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': getAPIToken()
+        },
+        mode: 'cors',
+        credentials: 'same-origin',
+       success: function(result) {
+            $.notify('Scheme Referral Created Successfully', 'success')
+            $('#addschemeModal').modal('hide')
+        },
+        error: function(data) {
+            $.notify('Failed to upload scheme', "error");
+            $('#addschemeModal').modal('hide')
         }
     });
 }
@@ -347,12 +403,12 @@ function createscheme(params) {
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            $.notify('Scheme Created Successfully','success')
+            $.notify('Scheme Created Successfully', 'success')
             $('#mediumModal').modal('hide')
         },
         error: function(data) {
             $.notify('Failed to upload scheme', "error");
-             $('#mediumModal').modal('hide')
+            $('#mediumModal').modal('hide')
         }
     });
 }
@@ -396,8 +452,8 @@ function deletereward(id) {
 
 function updatereward(id, params) {
     $.ajax({
-        url: BASE_URL + 'admin/update_rewards/' + id,
-        method: 'PATCH',
+        url: BASE_URL + 'admin/rewarded/',
+        method: 'post',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': getAPIToken()
@@ -406,8 +462,12 @@ function updatereward(id, params) {
         mode: 'cors',
         credentials: 'same-origin',
         success: function(result) {
-            alert('data added')
-            $('#mediumModal').modal('hide')
+            if (result.hasOwnProperty('errors') == true) {
+                $.notify(result.errors, 'warn')
+            }
+            if (result.hasOwnProperty('msg') == true) {
+                $.notify(result.msg, 'success')
+            }
         },
         error: function(data) {}
     });

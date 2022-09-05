@@ -69,7 +69,7 @@ async function showTables() {
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 10,
+        pageLength: 50,
 
         ajax: function(data, callback, settings) {
             $.ajax({

@@ -1,16 +1,33 @@
 $(document).ready(function() {
-    showTable()
+    showTable();
+    listofuser();
 });
-async function showTable() {
+$("#user_id").change(function(e) {
+    e.preventDefault()
+    user_id = $('#user_id').val()
+    showTable(user_id)
+});
+async function showTable(user_id=null,start = null ,end=null) {
     itemMasterTable = $('#reward').DataTable({
         "bDestroy": true,
         searching: false,
         processing: true,
         serverSide: false,
-        pageLength: 10,
+        pageLength: 50,
         ajax: function(data, callback, settings) {
+            if (user_id != null || start != null || end != null ){
+                if (user_id != null){
+                    condition_url  = BASE_URL + 'admin/filter_reward/?userid ='+user_id
+                }
+                if (start != null && end != null) {
+                    condition_url = BASE_URL + 'admin/filter_reward/?start_date='+start+'&end_date='+end   
+                }
+            }else{
+                condition_url  =  BASE_URL + 'admin/filter_reward/'
+            }
+
             $.ajax({
-                url: BASE_URL + 'admin/get_rewards/',
+                url: condition_url,
                 method: 'get',
                 // data: params,
                 headers: {
@@ -23,8 +40,8 @@ async function showTable() {
                     callback({
                         draw: data.draw,
                         recordsTotal: result.length,
-                        recordsFiltered: result.data.length,
-                        data: result.data
+                        recordsFiltered: result.results.length,
+                        data: result.results
                     });
                 },
                 error: function(data) {
@@ -123,7 +140,7 @@ $("#payment_button").click(function(e) {
     reference         =   $('#reference').val()
     var params = JSON.stringify({
             'payment_option': payment_option,
-            'reference': reference,
+            'reward_id': id,
     });
     updatereward(id,params)
 });

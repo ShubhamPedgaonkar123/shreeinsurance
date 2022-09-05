@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -25,7 +24,7 @@
     <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
     <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
     <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-        <!-- datatable -->
+    <!-- datatable -->
     <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
     <link href="vendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="vendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -33,7 +32,6 @@
     <link href="vendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="vendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
-
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
 </head>
@@ -65,7 +63,7 @@
         <!-- END HEADER MOBILE-->
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
-            <div >
+            <div>
                 <a id="logo" href="#"></a>
             </div>
         </aside>
@@ -258,9 +256,25 @@
                                                 <div class="col-md-12">
                                                     <h1>Scheme Referral</h1>
                                                     <div class="pull-right" style="margin-bottom: 20px;">
-                                                        <!-- <button id="add-schema" class="au-btn au-btn-icon au-btn--green au-btn--small"> -->
-                                                            <!-- <i class="zmdi zmdi-plus"></i>Add Schema Referral</button> -->
-                                                        
+                                                        <button id="viewaddschemeModal" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                                        <i class="zmdi zmdi-plus"></i>Add Schema Referral</button>
+                                                    </div>
+                                                    <br><br>
+                                                    <label>Filter option</label>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label>Referral Name</label>
+                                                            <select class="form-control" id="fiter_status">
+                                                                <option>new</option>
+                                                                <option>approved</option>
+                                                                <option>rejected</option>
+                                                                <option>rewarded</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label>Scheme Filter</label>
+                                                            <select class="form-control" id="scheme_filter"></select>
+                                                        </div>
                                                     </div>
                                                     <!-- DATA TABLE-->
                                                     <div class="table-responsive m-b-40 m-t-30">
@@ -352,11 +366,81 @@
                                             <td id="policy_no"></td>
                                             <td id="commission"></td>
                                             <td id="requirement"></td>
-                                            <td><a id="pdf" src=""  target="_blank" ></a><i class="fa fa-cloud-download"></i></td>
+                                            <td id="pdf"></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- View Scheme Details -->
+    <div class="modal fade" id="viewmodalscheme" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <!-- <div class="card-header">Create Sub Category</div> -->
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">View Scheme Details</h3>
+                            </div>
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
+                                    <input type="text" class="form-control" id="view_scheme_name" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Description</label>
+                                    <textarea class="form-control" id="view_details_description"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Start Date</label>
+                                    <input type="text" class="form-control" id="view_start_date" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">End Date</label>
+                                    <input type="text" class="form-control" id="view_end_date" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Type</label>
+                                    <input type="text" id="view_type" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Reward Value 1</label>
+                                    <input type="text" id="view_reward_value_1" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Reward Value 2</label>
+                                    <input type="text" id="view_reward_value_2" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Reward Value 1</label>
+                                    <input type="text" id="view_reward_value_1" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Qty</label>
+                                    <input type="text" id="view_qty" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <!-- </form> -->
                         </div>
                     </div>
                 </div>
@@ -382,52 +466,50 @@
                             </div>
                             <hr>
                             <!-- <form action="" method="post" novalidate="novalidate"> -->
-                                <div class="form-row">     
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
-                                        <select class="form-control" id="edit_scheme"></select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Status</label>
-                                        <select class="form-control" id="edit_status">
-                                           <!--  <option>Approved</option>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
+                                    <select class="form-control" id="edit_scheme"></select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Status</label>
+                                    <select class="form-control" id="edit_status">
+                                        <!--  <option>Approved</option>
                                             <option>Rewarded</option>
                                             <option>Rejected</option> -->
-                                        </select>
-                                    </div>
+                                    </select>
                                 </div>
-                                <div class="form-row">     
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Main Insurance Category</label>
-                                        <select class="form-control" id="edit_category">
-                                           
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Sub Insurance Category</label>
-                                        <select class="form-control" id="edit_sub_category">
-                                            
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Main Insurance Category</label>
+                                    <select class="form-control" id="edit_category">
+                                    </select>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label mb-1">Policy Number</label>
-                                        <input type="text" id="edit_policy_no" class="form-control">
-                                        <input type="hidden" id="id" value="">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="control-label mb-1">Update Policy Document</label>
-                                        <input type="file" id="edit_document" class="form-control">
-                                    </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Sub Insurance Category</label>
+                                    <select class="form-control" id="edit_sub_category">
+                                    </select>
                                 </div>
-                                <div>
-                                    <button  id="update_scheme_referral" type="submit" class="btn btn-lg btn-info btn-block">
-                                        <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
-                                        <span id="payment-button-amount">Update</span>
-                                        <span id="payment-button-sending" style="display:none;">Sending…</span>
-                                    </button>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Policy Number</label>
+                                    <input type="text" id="edit_policy_no" class="form-control">
+                                    <input type="hidden" id="id" value="">
                                 </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Update Policy Document</label>
+                                    <input type="file" id="edit_document" class="form-control">
+                                </div>
+                            </div>
+                            <div>
+                                <button id="update_scheme_referral" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
+                                    <span id="payment-button-amount">Update</span>
+                                    <span id="payment-button-sending" style="display:none;">Sending…</span>
+                                </button>
+                            </div>
                             <!-- </form> -->
                         </div>
                     </div>
@@ -436,7 +518,7 @@
         </div>
     </div>
     <!-- Add Scheme  -->
-    <div class="modal fade" id="editschemamediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addschemeModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -450,62 +532,52 @@
                         <!-- <div class="card-header">Create Sub Category</div> -->
                         <div class="card-body">
                             <div class="card-title">
-                                <h3 class="text-center title-2">Add Schemes</h3>
+                                <h3 class="text-center title-2">Schema Referral</h3>
                             </div>
                             <hr>
-                            <form action="" method="post" novalidate="novalidate">
-                                <div class="form-row">     
+                            <!-- <form action="" method="post" novalidate="novalidate"> -->
+                                <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
-                                        <select class="form-control">
-                                            <option>6 Weeks</option>
-                                            <option>10 Weeks</option>
+                                        <label for="cc-payment" class="control-label mb-1">Referral User Name</label>
+                                        <select class="form-control" id="user_id">
+
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Status</label>
-                                        <select class="form-control">
-                                            <option>Approved</option>
-                                            <option>Rewarded</option>
-                                            <option>Rejected</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-row">     
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Main Insurance Category</label>
-                                        <select class="form-control">
-                                            <option>LIC</option>
-                                            <option>HDFC</option>
-                                            <option>SBI</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="cc-payment" class="control-label mb-1">Sub Insurance Category</label>
-                                        <select class="form-control">
-                                            <option>LIC ANAND</option>
-                                            <option>LIC JIVAN ANAND</option>
-                                        </select>
+                                        <label for="cc-payment" class="control-label mb-1">Scheme</label>
+                                        <select class="form-control" id="view_scheme"></select>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label class="control-label mb-1">Policy Number</label>
-                                        <input type="text" class="form-control" value="LICD099567854">
+                                        <label for="cc-payment" class="control-label mb-1">First Name</label>
+                                        <input type="text" class="form-control" id="first_name" />
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="control-label mb-1">Update Policy Document</label>
-                                        <input type="file" class="form-control">
+                                        <label for="cc-payment" class="control-label mb-1">Last Name</label>
+                                        <input type="text" class="form-control" id="last_name" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label mb-1">Email</label>
+                                        <input type="text" class="form-control"  id="email">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label mb-1">Mobile</label>
+                                        <input type="text" class="form-control" id="mobile">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Requirement</label>
+                                        <input type="text" class="form-control" id="requirement">
                                     </div>
                                 </div>
                                 <div>
-                                    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                        <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
-                                        <span id="payment-button-amount">Update</span>
-                                        <span id="payment-button-sending" style="display:none;">Sending…</span>
+                                    <button id="add-referral-scheme" type="submit" class="btn btn-lg btn-info btn-block">
+                                        <span id="payment-button-amount">Add</span>
                                     </button>
                                 </div>
-                            </form>
+                            <!-- </form> -->
                         </div>
                     </div>
                 </div>
@@ -544,7 +616,6 @@
     <script src="vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
     <script src="vendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-  
     <!-- Main JS-->
     <script src="js/main.js"></script>
     <!-- Custom Js -->
