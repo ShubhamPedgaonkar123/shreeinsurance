@@ -114,15 +114,16 @@ async function showTable(scheme_filter = null, start = null, end = null) {
         "ordering": false,
                 "lengthChange": false,
         ajax: function(data, callback, settings) {
+            var pageIndex = data.start / data.length + 1;
             if (scheme_filter != null || start != null || end != null) {
                 if (scheme_filter != null) {
-                    condition_url = 'admin/get_schemes/?name=' + scheme_filter
+                    condition_url = 'admin/get_schemes/?page='+pageIndex+'&name=' + scheme_filter
                 }
                 if (start != null && end != null) {
-                    condition_url = 'admin/get_schemes/?start_date=' + start + '&end_date='+end
+                    condition_url = 'admin/get_schemes/?page='+pageIndex+'&start_date=' + start + '&end_date='+end
                 }
             } else {
-                condition_url = 'admin/get_schemes/?page=1'
+                condition_url = 'admin/get_schemes/?page='+pageIndex
             }
             $.ajax({
                 url: BASE_URL + condition_url ,
@@ -138,7 +139,7 @@ async function showTable(scheme_filter = null, start = null, end = null) {
                     callback({
                         draw: data.draw,
                         recordsTotal: result.count,
-                        recordsFiltered: result.results.length,
+                        recordsFiltered: result.count,
                         data: result.results
                     });
                 },

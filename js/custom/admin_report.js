@@ -38,20 +38,20 @@ async function showTable(user_id = null, category_id = null, start = null ,end=n
         pageLength: 22,
         "lengthChange": false,
         ajax: function(data, callback, settings) {
-
+            var pageIndex = data.start / data.length + 1;
             if (user_id != null || category_id != null || start != null || end != null) {
                 if (user_id != null) {
-                    condition_url = BASE_URL + 'admin/admin_report/?user_id='+user_id
+                    condition_url = BASE_URL + 'admin/admin_report/?page='+pageIndex+'&user_id='+user_id
                 }
                 if (category_id != null) {
-                    condition_url = BASE_URL + 'admin/admin_report/?main_insurance_id='+category_id   
+                    condition_url = BASE_URL + 'admin/admin_report/?page='+pageIndex+'&main_insurance_id='+category_id   
                 }
                  if (start != null && end != null) {
-                    condition_url = BASE_URL + 'admin/admin_report/?start_date='+start+'&end_date='+end   
+                    condition_url = BASE_URL + 'admin/admin_report/?page='+pageIndex+'&start_date='+start+'&end_date='+end   
                 }
 
             } else {
-                condition_url = BASE_URL + 'admin/admin_report/?page=1'
+                condition_url = BASE_URL + 'admin/admin_report/?page='+pageIndex
             }
             $.ajax({
                 url: condition_url,
@@ -67,7 +67,7 @@ async function showTable(user_id = null, category_id = null, start = null ,end=n
                     callback({
                         draw: data.draw,
                         recordsTotal: result.count,
-                        recordsFiltered: result.results.length,
+                        recordsFiltered: result.count,
                         data: result.results
 
                     });

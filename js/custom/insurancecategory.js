@@ -73,8 +73,9 @@ async function showTables() {
         "ordering": false,
         "lengthChange": false,
         ajax: function(data, callback, settings) {
+            var pageIndex = data.start / data.length + 1;
             $.ajax({
-                url: BASE_URL + 'admin/get_category',
+                url: BASE_URL + 'admin/get_category?&page='+pageIndex,
                 method: 'get',
                 // data: params,
                 headers: {
@@ -87,7 +88,7 @@ async function showTables() {
                     callback({
                         draw: data.draw,
                         recordsTotal: result.count,
-                        recordsFiltered: result.results.length,
+                        recordsFiltered: result.count,
                         data: result.results
                     });
                 },

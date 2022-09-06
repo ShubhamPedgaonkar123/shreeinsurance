@@ -5,7 +5,9 @@ function capitalizeFirstLetter(str) {
 
     return capitalized;
 }
-
+$("#removefilter").click(function(e) {
+    showTable()
+});
 async function converImageToBase64(inputId) {
   let image = $('#'+inputId)[0]['files']
 

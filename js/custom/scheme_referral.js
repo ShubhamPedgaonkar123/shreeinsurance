@@ -1,9 +1,9 @@
 $("#modal_insurance_details").click(function() {
     $('#mediumModal').modal('show');
 });
+
 $("#fiter_status").change(function(e) {
     e.preventDefault()
-    alert('s')
     fiter_status = $('#fiter_status').val()
     showTable(fiter_status)
 });
@@ -79,11 +79,14 @@ async function showTable(fiter_status=null,scheme_filter=null) {
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 22,
+        pageLength: 20,
         "ordering": false,
-                "lengthChange": false,
+        "lengthChange": false,
+        // "bPaginate": false,
+        // "bInfo" : false,
         ajax: function(data, callback, settings) {
             var pageIndex = data.start / data.length + 1;
+            console.log(pageIndex)
             if (fiter_status != null || scheme_filter != null) {
                 if (fiter_status != null) {
                     condition_url  = 'admin/get_new_scheme_referral/?page='+pageIndex+'&status='+fiter_status
@@ -108,7 +111,7 @@ async function showTable(fiter_status=null,scheme_filter=null) {
                     callback({
                         draw: data.draw,
                         recordsTotal: result.count,
-                        recordsFiltered: result.results.length,
+                        recordsFiltered: result.count,
                         data: result.results
                     });
                 },

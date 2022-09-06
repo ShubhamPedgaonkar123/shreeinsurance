@@ -17,23 +17,25 @@ async function showTable(user_id=null,start = null ,end=null,is_paid=null) {
         "bDestroy": true,
         searching: false,
         processing: true,
-        serverSide: false,
+        serverSide: true,
         pageLength: 22,
         "ordering": false,
                 "lengthChange": false,
         ajax: function(data, callback, settings) {
+            var pageIndex = data.start / data.length + 1;
+            console.log(pageIndex)
             if (user_id != null || start != null || end != null || is_paid != null ){
                 if (user_id != null){
-                    condition_url  = BASE_URL + 'admin/filter_reward/?userid ='+user_id
+                    condition_url  = BASE_URL + 'admin/filter_reward/?page='+pageIndex+'&userid ='+user_id
                 }
                 if (start != null && end != null) {
-                    condition_url = BASE_URL + 'admin/filter_reward/?start_date='+start+'&end_date='+end   
+                    condition_url = BASE_URL + 'admin/filter_reward/?page='+pageIndex+'&start_date='+start+'&end_date='+end   
                 }
                 if (is_paid != null) {
-                    condition_url = BASE_URL + 'admin/filter_reward/?is_paid='+is_paid   
+                    condition_url = BASE_URL + 'admin/filter_reward/?page='+pageIndex+'&is_paid='+is_paid   
                 }
             }else{
-                condition_url  =  BASE_URL + 'admin/filter_reward/'
+                condition_url  =  BASE_URL + 'admin/filter_reward/?page='+pageIndex
             }
 
             $.ajax({
@@ -49,8 +51,8 @@ async function showTable(user_id=null,start = null ,end=null,is_paid=null) {
                 success: function(result) {
                     callback({
                         draw: data.draw,
-                        recordsTotal: result.length,
-                        recordsFiltered: result.results.length,
+                        recordsTotal: result.count,
+                        recordsFiltered: result.count,
                         data: result.results
                     });
                 },
