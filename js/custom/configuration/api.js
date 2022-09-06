@@ -1,14 +1,12 @@
-$('.tab').click(function() {
-    $(this).addClass('active').siblings().removeClass('active');
-});
-function listofscheme(data, scheme_name = null,scheme_id=null) {
+function listofscheme(data, scheme_name = null, scheme_id = null) {
     var appendVariable = ' ';
     var appendVariable2 = ' ';
+    var appendVariable3 = ' ';
     length_of_data = data.length
     for (var i = 0; i < length_of_data; i++) {
         if (data[i]['name'] == scheme_name) {
             appendVariable += '<option selected value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>';
-        }else if (scheme_id == data[i]['id']) {
+        } else if (scheme_id == data[i]['id']) {
             $('#view_scheme_name').val(data[i]['name'])
             $('#view_details_description').val(data[i]['details'])
             $('#view_start_date').val(data[i]['start_date'])
@@ -17,10 +15,18 @@ function listofscheme(data, scheme_name = null,scheme_id=null) {
             $('#view_reward_value_1').val(data[i]['reward_value_1'])
             $('#view_reward_value_2').val(data[i]['reward_value_2'])
             $('#view_qty').val(data[i]['qty'])
+            options = data[i]['options']
+            for (var j = 0; j < options.length; j++) {
+                appendVariable3 += '<tr>'
+                appendVariable3 += '<td>' + options[j]['category_name'] + '</td>'
+                appendVariable3 += '<td>' + options[j]['qty'] + '</td>'
+                appendVariable3 += '</tr>'
+            }
+            $('#option_append').append(appendVariable3)
         } else {
             appendVariable += '<option value="' + data[i]['id'] + '">' + data[i]['name'] + '</option>'
         }
-            appendVariable2 += '<option>' + data[i]['name'] + '</option>'
+        appendVariable2 += '<option>' + data[i]['name'] + '</option>'
     }
     $('#edit_scheme').html(appendVariable)
     $('#view_scheme').html(appendVariable)
@@ -68,6 +74,29 @@ async function login(params) {
     //     .catch((error) => {
     //         console.error('Error:', error);
     //     });
+}
+async function update_password(params) {
+    $.ajax({
+        url: BASE_URL + 'admin/change_password/',
+        method: 'POST',
+        data: params,
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors',
+        credentials: 'same-origin',
+        success: function(result) {
+            $.notify("Updated Successfully", "success");
+            // updateAPIToken(result.token.access);
+            window.location.href = "index.html";
+            return;
+        },
+        error: function(data) {
+            // console.log()
+            $.notify(data.responseJSON.errors.detail, "error");
+            // data = data.responseJSON.errors.non_field_errors
+            // for (var i = 0; i < data.length; i++) {
+            // }
+        }
+    });
 }
 async function createsubinsurancecategory(params) {
     $.ajax({
@@ -380,7 +409,7 @@ function addschemereferraladmin(argument) {
         },
         mode: 'cors',
         credentials: 'same-origin',
-       success: function(result) {
+        success: function(result) {
             $.notify('Scheme Referral Created Successfully', 'success')
             $('#addschemeModal').modal('hide')
         },

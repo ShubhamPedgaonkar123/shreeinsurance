@@ -36,3 +36,5 @@ function callback(response) {
   //use return_first variable here
   return return_first;
 }
+$("#logo").html('<img src="images/logo/logo_.png" alt="Shree" style="width:100%;height:100%;" />');
+    

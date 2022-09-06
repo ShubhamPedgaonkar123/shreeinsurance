@@ -34,7 +34,9 @@ async function showTable(user_id = null, category_id = null, start = null ,end=n
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 50,
+        "ordering": false,
+        pageLength: 22,
+        "lengthChange": false,
         ajax: function(data, callback, settings) {
 
             if (user_id != null || category_id != null || start != null || end != null) {

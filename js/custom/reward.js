@@ -2,25 +2,35 @@ $(document).ready(function() {
     showTable();
     listofuser();
 });
+$("#is_paid").change(function(e){
+    e.preventDefault()
+    is_paid = $(this).val()
+    showTable(user_id=null,start = null ,end=null,is_paid)
+});
 $("#user_id").change(function(e) {
     e.preventDefault()
     user_id = $('#user_id').val()
     showTable(user_id)
 });
-async function showTable(user_id=null,start = null ,end=null) {
+async function showTable(user_id=null,start = null ,end=null,is_paid=null) {
     itemMasterTable = $('#reward').DataTable({
         "bDestroy": true,
         searching: false,
         processing: true,
         serverSide: false,
-        pageLength: 50,
+        pageLength: 22,
+        "ordering": false,
+                "lengthChange": false,
         ajax: function(data, callback, settings) {
-            if (user_id != null || start != null || end != null ){
+            if (user_id != null || start != null || end != null || is_paid != null ){
                 if (user_id != null){
                     condition_url  = BASE_URL + 'admin/filter_reward/?userid ='+user_id
                 }
                 if (start != null && end != null) {
                     condition_url = BASE_URL + 'admin/filter_reward/?start_date='+start+'&end_date='+end   
+                }
+                if (is_paid != null) {
+                    condition_url = BASE_URL + 'admin/filter_reward/?is_paid='+is_paid   
                 }
             }else{
                 condition_url  =  BASE_URL + 'admin/filter_reward/'
@@ -58,6 +68,12 @@ async function showTable(user_id=null,start = null ,end=null) {
                 "title": "User Name",
                 render: function(data, type, row, meta) {
                     return row.user_detail.firstname + " " +row.user_detail.lastname
+                }
+            },
+            {
+                "title": " Scheme Name",
+                render: function(data, type, row, meta) {
+                    return  '<a  id="style-2" data-replace="'+row.scheme_name+'"><span id="view_scheme_details">'+row.scheme_name+'</span></a>'  
                 }
             },
             {
@@ -121,6 +137,12 @@ async function showTable(user_id=null,start = null ,end=null) {
         id   = data.id
         $('#id').val(id)
         $('#update').modal('show')
+    });
+    $('#reward').on('click', '#style-2', async function(){
+        var RowIndex = $(this).closest('tr');
+        var data = $('#reward').dataTable().api().row(RowIndex).data();
+        getscheme(null,data.scheme_id)
+        $("#viewmodalscheme").modal('show');  
     });
     $('#reward').on('click', '#delete', async function(){
         var RowIndex = $(this).closest('tr');

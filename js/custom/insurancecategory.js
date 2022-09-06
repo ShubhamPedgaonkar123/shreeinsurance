@@ -69,8 +69,9 @@ async function showTables() {
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 50,
-
+        pageLength: 22,
+        "ordering": false,
+        "lengthChange": false,
         ajax: function(data, callback, settings) {
             $.ajax({
                 url: BASE_URL + 'admin/get_category',

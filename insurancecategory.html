@@ -65,7 +65,33 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div>
-                <a  id="logo" href="#"></a>
+                <a  href="#"><img src="images/logo/logo_.png" alt="Shree" style="width:100%;height:100%;" /></a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li class="active">
+                            <a href="insurancecategory.html">
+                                <i class="fas fa-chart-bar"></i>Insurance Category</a>
+                        </li>
+                        <li>
+                            <a href="scheme.html">
+                                <i class="fas fa-table"></i>Scheme</a>
+                        </li>
+                        <li>
+                            <a href="scheme_referral.html">
+                                <i class="far fa-check-square"></i>Scheme Referral</a>
+                        </li>
+                        <li>
+                            <a href="reward.html">
+                                <i class="fas fa-calendar-alt"></i>Reward</a>
+                        </li>
+                        <li>
+                            <a href="admin_report.html">
+                                <i class="fas fa-map-marker-alt"></i>Admin Report</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </aside>
         <!-- END MENU SIDEBAR-->
@@ -97,10 +123,10 @@
                                                     <h1>Insurance Category</h1>
                                                     <div class="pull-right" style="margin-bottom: 20px;">
                                                         <button id="add-insurance-category" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                                            <i class="zmdi zmdi-plus"></i>Add Schema</button>
+                                                            <i class="zmdi zmdi-plus"></i>Add Category</button>
                                                     </div>
                                                     <!-- DATA TABLE-->
-                                                    <div class="table-responsive m-b-40 m-t-30" >
+                                                    <div class="table-responsive m-b-40 m-t-30">
                                                         <table id="tableRegionReport" class="">
                                                         </table>
                                                     </div>
@@ -138,18 +164,18 @@
                             </div>
                             <hr>
                             <!-- <form action="" method="post" novalidate="novalidate"> -->
-                                <div class="form-group">
-                                    <label for="cc-payment" class="control-label mb-1">Sub Category Name</label>
-                                    <input id="sub_category" type="text" class="form-control" />
-                                    <input type="hidden" id="category_name">
-                                </div>
-                                <div>
-                                    <button id="subcategorycreate" type="submit" class="btn btn-lg btn-info btn-block">
-                                        <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
-                                        <span id="payment-button-amount">Add</span>
-                                        <span id="payment-button-sending" style="display:none;">Sending…</span>
-                                    </button>
-                                </div>
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Sub Category Name</label>
+                                <input id="sub_category" type="text" class="form-control" />
+                                <input type="hidden" id="category_name">
+                            </div>
+                            <div>
+                                <button id="subcategorycreate" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
+                                    <span id="payment-button-amount">Add</span>
+                                    <span id="payment-button-sending" style="display:none;">Sending…</span>
+                                </button>
+                            </div>
                             <!-- </form> -->
                         </div>
                     </div>
@@ -172,7 +198,7 @@
                         <div class="col-md-12">
                             <!-- DATA TABLE-->
                             <div class="table-responsive m-b-40">
-                                <table  id="subcategorytable" class="table table-borderless table-data3">
+                                <table id="subcategorytable" class="table table-borderless table-data3">
                                     <thead>
                                         <tr>
                                             <th>Sr No </th>

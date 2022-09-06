@@ -66,10 +66,34 @@
         <!-- END HEADER MOBILE-->
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
-            <div id="logo">
-                <a  href="#">
-                    <img src="images/logo/logo_.png" alt="Shree" />
-                </a>
+            <div>
+                <a id="logo" href="#"><img src="images/logo/logo_.png" alt="Shree" style="width:100%;height:100%;" /></a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li >
+                            <a href="insurancecategory.html">
+                                <i class="fas fa-chart-bar"></i>Insurance Category</a>
+                        </li>
+                        <li class="active">
+                            <a href="scheme.html">
+                                <i class="fas fa-table"></i>Scheme</a>
+                        </li>
+                        <li>
+                            <a href="scheme_referral.html">
+                                <i class="far fa-check-square"></i>Scheme Referral</a>
+                        </li>
+                        <li>
+                            <a href="reward.html">
+                                <i class="fas fa-calendar-alt"></i>Reward</a>
+                        </li>
+                        <li>
+                            <a href="admin_report.html">
+                                <i class="fas fa-map-marker-alt"></i>Admin Report</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </aside>
         <!-- END MENU SIDEBAR-->
@@ -254,10 +278,13 @@
                 padding-left: 1%;
                 padding-right: 8%;
             }
+
             .table-image {
-              td, th {
-                vertical-align: middle;
-              }
+
+                td,
+                th {
+                    vertical-align: middle;
+                }
             }
             </style>
             <div class="main-content">
@@ -274,7 +301,6 @@
                                                     <div class="pull-right" style="margin-bottom: 20px;">
                                                         <button id="add-schema" class="au-btn au-btn-icon au-btn--green au-btn--small">
                                                             <i class="zmdi zmdi-plus"></i>Add Schema</button>
-                                                        
                                                     </div>
                                                     <br><br>
                                                     <label>Filter option</label>
@@ -326,15 +352,15 @@
                                 <h3 class="text-center title-2">Create Schemes</h3>
                             </div>
                             <hr>
-                            <form  method="post" >
-                                <div class="form-row">     
+                            <form method="post">
+                                <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
                                         <input id="scheme_name" type="text" class="form-control" />
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Scheme Details </label>
-                                        <textarea id="scheme_details " type="text" class="form-control" ></textarea>
+                                        <textarea id="scheme_details " type="text" class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -351,7 +377,7 @@
                                         <select id="scheme_type_select" class="form-control">
                                             <option>Please Select</option>
                                             <option value="total">Total Insurance</option>
-                                            <option value="particular">Particular</option>    
+                                            <option value="particular">Particular</option>
                                         </select>
                                     </div>
                                 </div>
@@ -392,17 +418,16 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label class="control-label mb-1" >Category Name</label>
-                                        <select class="form-control js-example-basic-single" id="category_id" multiple ></select>
+                                        <label class="control-label mb-1">Category Name</label>
+                                        <select class="form-control js-example-basic-single" id="category_id" multiple></select>
                                     </div>
                                     <div class="form-group col-md-8" id="input_field">
-                                        
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label class="control-label mb-1">Image</label>
-                                        <input type="file" id="image" class="form-control" >
+                                        <input type="file" id="image" class="form-control">
                                     </div>
                                 </div>
                                 <div>
@@ -437,8 +462,8 @@
                                 <h3 class="text-center title-2">Edit Schemes</h3>
                             </div>
                             <hr>
-                            <form  method="post" enctype="multipart" >
-                                <div class="form-row">     
+                            <form method="post" enctype="multipart">
+                                <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
                                         <input id="edit_scheme_name" type="text" class="form-control" />
@@ -461,7 +486,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label class="control-label mb-1">Quantity</label>
-                                        <div class="input-group" >
+                                        <div class="input-group">
                                             <span class="input-group-prepend">
                                                 <button type="button" class="btn btn-outline-secondary btn-number" disabled="disabled" data-type="minus" data-field="quant[1]">
                                                     <span class="fa fa-minus"></span>
@@ -493,16 +518,15 @@
                                         <input id="edit_end_date" type="date" class="form-control">
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label class="control-label mb-1" >Category Name</label>
-                                        <select class="form-control "  id="edit_category_id">
-                                            
+                                        <label class="control-label mb-1">Category Name</label>
+                                        <select class="form-control " id="edit_category_id">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label class="control-label mb-1">Image</label>
-                                        <input type="file" id="edit_image" class="form-control" >
+                                        <input type="file" id="edit_image" class="form-control">
                                     </div>
                                 </div>
                                 <div>
@@ -561,20 +585,20 @@
                             </div>
                             <hr>
                             <div class="table-responsive">
-                            <table class="table table-borderless table-data3 table-image"> 
-                                <thead>
-                                    <!-- <th>Category Name</th> -->
-                                    <th>Details</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>type</th>
-                                    <th>Qty</th>
-                                    <th>L1 Reward Value</th>
-                                    <th>L2 </th>
-                                </thead>
-                                <tbody id="scheme_details_variable">
-                                </tbody>
-                            </table>
+                                <table class="table table-borderless table-data3 table-image">
+                                    <thead>
+                                        <!-- <th>Category Name</th> -->
+                                        <th>Details</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>type</th>
+                                        <th>Qty</th>
+                                        <th>L1 Reward Value</th>
+                                        <th>L2 </th>
+                                    </thead>
+                                    <tbody id="scheme_details_variable">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -602,7 +626,7 @@
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
     <script src="vendor/select2/select2.min.js">
     </script>
-        <!-- LIBREARY -->
+    <!-- LIBREARY -->
     <script src="vendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -619,13 +643,12 @@
     <script src="js/main.js"></script>
     <!-- Custom Js -->
     <script src="js/custom/header_mobile.js"></script>
-    <script src="js/custom/aside.js"></script>
+    <!-- <script src="js/custom/aside.js"></script> -->
     <script src="js/custom/configuration/config.js"></script>
     <!-- <script src="js/custom/scheme.js"></script> -->
     <!-- daterangepicker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
     <script>
     $(function() {
         $('input[name="daterange"]').daterangepicker({

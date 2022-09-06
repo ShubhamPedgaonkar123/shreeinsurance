@@ -110,8 +110,9 @@ async function showTable(scheme_filter = null, start = null, end = null) {
         searching: false,
         processing: true,
         serverSide: true,
-        pageLength: 50,
-
+        pageLength: 22,
+        "ordering": false,
+                "lengthChange": false,
         ajax: function(data, callback, settings) {
             if (scheme_filter != null || start != null || end != null) {
                 if (scheme_filter != null) {

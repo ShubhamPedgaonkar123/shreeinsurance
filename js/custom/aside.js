@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $("#logo").html('<img src="images/logo/logo_.png" alt="Shree" />');
+    $("#logo").html('<img src="images/logo/logo_.png" alt="Shree" style="width:36%;height:100%;" />');
     var mobile_menu = ' ';
 
     mobile_menu += '<div class="menu-sidebar__content js-scrollbar1">'

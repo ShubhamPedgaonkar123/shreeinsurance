@@ -80,17 +80,19 @@ async function showTable(fiter_status=null,scheme_filter=null) {
         processing: true,
         serverSide: true,
         pageLength: 22,
-
+        "ordering": false,
+                "lengthChange": false,
         ajax: function(data, callback, settings) {
+            var pageIndex = data.start / data.length + 1;
             if (fiter_status != null || scheme_filter != null) {
                 if (fiter_status != null) {
-                    condition_url  = 'admin/get_new_scheme_referral/?status='+fiter_status
+                    condition_url  = 'admin/get_new_scheme_referral/?page='+pageIndex+'&status='+fiter_status
                 }
                 if (scheme_filter != null) {
-                    condition_url  = 'admin/get_new_scheme_referral/?scheme_id='+scheme_filter
+                    condition_url  = 'admin/get_new_scheme_referral/?page='+pageIndex+'&scheme_id='+scheme_filter
                 }
             }else{
-                condition_url  = 'admin/get_new_scheme_referral/?'
+                condition_url  = 'admin/get_new_scheme_referral/?page='+pageIndex
              }
             $.ajax({
                 url: BASE_URL + condition_url,
@@ -124,7 +126,7 @@ async function showTable(fiter_status=null,scheme_filter=null) {
             {
                 "title": "Scheme Name",
                 render: function(data, type, row, meta) {
-                    appendVariable  =  '<span id="view_scheme_details">'+row.scheme_detail.name+'</span>'
+                    appendVariable  =  '<a  id="style-2" data-replace="'+row.scheme_detail.name+'"><span id="view_scheme_details">'+row.scheme_detail.name+'</span></a>'
                     return appendVariable
                 }
             },
@@ -197,7 +199,7 @@ async function showTable(fiter_status=null,scheme_filter=null) {
         if (policy_document != null){ $("#pdf").append("<a  href="+BASE_URL_FOR_IMAGE+policy_document+" Target='_blank'  ><i class='fa fa-eye'></i></a>") } else { $("#pdf").html("-") }
         $("#mediumModal").modal('show');
     });
-    $('#views_scheme_referral').on('click', '#view_scheme_details', async function(){
+    $('#views_scheme_referral').on('click', '#style-2', async function(){
         var RowIndex = $(this).closest('tr');
         var data = $('#views_scheme_referral').dataTable().api().row(RowIndex).data();
         console.log(data.scheme_detail.name)
@@ -223,7 +225,9 @@ async function showTable(fiter_status=null,scheme_filter=null) {
         } else {
             $('#edit_status').html('<option value="approved">Approved</option><option value="rewarded" >Rewarded</option><option value="rejected"  selected>Rejected</option>')
         }
-        getscheme(scheme_name = scheme_name)
+        console.log(data.scheme_detail.name)
+        $('#edit_scheme').val(data.scheme_detail.name)
+        // getscheme(scheme_name = scheme_name)
         listinsuarance(main_insurance_ids=null, sub_insurance_ids=null, data_type = "category_append")
         $('#editschemamediumModal').modal('show')
     });
@@ -255,13 +259,15 @@ $("#update_scheme_referral").click(function(e) {
     var edit_sub_category = $('#edit_sub_category').val()
     var edit_policy_no = $('#edit_policy_no').val()
     var edit_document = $('#edit_document').val()
+    var commission = $('#edit_commission').val()
     if (edit_document.length == 0) {
         var params = JSON.stringify({
             'status': edit_status,
             'main_insurance_id': edit_category,
             'sub_insurance_id': edit_sub_category,
             'scheme_id': edit_scheme,
-            'policy_no': edit_policy_no
+            'policy_no': edit_policy_no,
+            'commission': commission
         });
         console.log(params)
         updateschemereferral(params,id);
@@ -275,7 +281,8 @@ $("#update_scheme_referral").click(function(e) {
                     'sub_insurance_id': edit_sub_category,
                     'scheme_id': edit_scheme,
                     'policy_no': edit_policy_no,
-                    'policy_document': value
+                    'policy_document': value,
+                    'commission': commission
                 });
             console.log(params)
             updateschemereferral(params,id);

@@ -37,7 +37,58 @@
     <link href="css/theme.css" rel="stylesheet" media="all">
     <!-- Date range Picker-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <style type="text/css">
+    a {
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+    }
 
+    a::before,
+    a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+
+    a::before {
+        background-color: #54b3d6;
+        height: 2px;
+        bottom: 0;
+        transform-origin: 100% 50%;
+        transform: scaleX(0);
+        transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    a::after {
+        content: attr(data-replace);
+        height: 100%;
+        top: 0;
+        transform-origin: 100% 50%;
+        transform: translate3d(200%, 0, 0);
+        transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+        color: #54b3d6;
+    }
+
+    a:hover::before {
+        transform-origin: 0% 50%;
+        transform: scaleX(1);
+    }
+
+    a:hover::after {
+        transform: translate3d(0, 0, 0);
+    }
+
+    a span {
+        display: inline-block;
+        transition: transform .3s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    a:hover span {
+        transform: translate3d(-200%, 0, 0);
+    }
+    </style>
 </head>
 
 <body class="animsition">
@@ -69,6 +120,32 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div>
                 <a id="logo" href="#"></a>
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                            <a href="insurancecategory.html">
+                                <i class="fas fa-chart-bar"></i>Insurance Category</a>
+                        </li>
+                        <li>
+                            <a href="scheme.html">
+                                <i class="fas fa-table"></i>Scheme</a>
+                        </li>
+                        <li>
+                            <a href="scheme_referral.html">
+                                <i class="far fa-check-square"></i>Scheme Referral</a>
+                        </li>
+                        <li class="active">
+                            <a href="reward.html">
+                                <i class="fas fa-calendar-alt"></i>Reward</a>
+                        </li>
+                        <li>
+                            <a href="admin_report.html">
+                                <i class="fas fa-map-marker-alt"></i>Admin Report</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </aside>
         <!-- END MENU SIDEBAR-->
@@ -282,6 +359,13 @@
                                                             <label>Date filter</label>
                                                             <input type="text" id="rangepicker" name="daterange" class="form-control">
                                                         </div>
+                                                        <div class="col-md-4">
+                                                            <label>Is paid</label>
+                                                            <select class="form-control" id="is_paid">
+                                                                <option value="true">Yes</option>
+                                                                <option value="false">No</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                     <!-- DATA TABLE-->
                                                     <div class="table-responsive m-b-40 m-t-30">
@@ -378,6 +462,83 @@
             </div>
         </div>
     </div>
+    <!-- View Scheme Details -->
+    <div class="modal fade" id="viewmodalscheme" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <!-- <div class="card-header">Create Sub Category</div> -->
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h3 class="text-center title-2">View Scheme Details</h3>
+                            </div>
+                            <hr>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Scheme Name</label>
+                                    <input type="text" class="form-control" id="view_scheme_name" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Description</label>
+                                    <textarea class="form-control" id="view_details_description" readonly></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">Start Date</label>
+                                    <input type="text" class="form-control" id="view_start_date" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-payment" class="control-label mb-1">End Date</label>
+                                    <input type="text" class="form-control" id="view_end_date" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Type</label>
+                                    <input type="text" id="view_type" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Reward Value 1</label>
+                                    <input type="text" id="view_reward_value_1" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Reward Value 2</label>
+                                    <input type="text" id="view_reward_value_2" class="form-control" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="control-label mb-1">Qty</label>
+                                    <input type="text" id="view_qty" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>Options</label>
+                                <table class="table table-borderless table-data3 table-image ">
+                                    <thead>
+                                        <tr>
+                                            <th>Category Name</th>
+                                            <th>Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="option_append">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
@@ -417,7 +578,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- Custom Js -->
     <script src="js/custom/header_mobile.js"></script>
-    <script src="js/custom/aside.js"></script>
+    <!-- <script src="js/custom/aside.js"></script> -->
     <script src="js/custom/configuration/config.js"></script>
     <!-- <script src="js/custom/scheme.js"></script> -->
     <script>
